@@ -1,12 +1,11 @@
-import { CoreModule } from './core/core.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-
+import { environment } from '@environments/environment';
+import { AppComponent } from '@root/.';
+import { CoreModule } from '@root/core';
 @NgModule({
   declarations: [
     AppComponent
@@ -22,7 +21,6 @@ import { environment } from '../environments/environment';
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

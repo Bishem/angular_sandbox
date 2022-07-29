@@ -1,12 +1,13 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { CoreRoutingModule } from './core-routing.module';
 
 
 @NgModule({
-  declarations: [],
   imports: [
-    CoreRoutingModule
+    CoreRoutingModule,
+    HttpClientModule
   ],
   exports: [
     CoreRoutingModule

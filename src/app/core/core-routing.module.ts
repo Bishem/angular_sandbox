@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TaskboardModule } from '../features/taskboard/taskboard.module';
+import { TaskboardModule } from '@features/taskboard';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full',redirectTo: 'taskboard'},
