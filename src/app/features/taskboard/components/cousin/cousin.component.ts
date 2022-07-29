@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-cousin',
   templateUrl: './cousin.component.html',
   styleUrls: ['./cousin.component.less']
 })
-export class CousinComponent {
-}
+export class CousinComponent { }

@@ -13,17 +13,11 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    console.log('intercepted request to ', request.url);
+    const isRequestAnUrl = /^(http|https):/i.test(request.url);
+    const requestAsUrl = request.clone({ url: environment.apiUrl + request.url });
 
-    if (!/^(http|https):/i.test(request.url)) {
-
-      console.log('prefixing it');
-
-      request = request.clone({ url: environment.apiUrl + request.url });
-
-      console.log('new path ', request.url);
-    }
-
-    return next.handle(request);
+    return next.handle(
+      isRequestAnUrl ? request : requestAsUrl
+    );
   }
 }

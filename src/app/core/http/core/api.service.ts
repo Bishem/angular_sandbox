@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Dictionary } from '@shared/interfaces';
+import { retry } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
 
 
 @Injectable({
@@ -10,56 +11,23 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  get<T>(
-    path: string,
-    params: HttpParams | Dictionary = new HttpParams()): Promise<T> {
-
-    return this.http.get<T>(path, { params }).toPromise();
+  get<T>(url: string): Observable<T> {
+    return this.http.get<T>(url).pipe(retry(1));
   }
 
-  getList<T>(
-    path: string,
-    params: HttpParams | Dictionary = new HttpParams()): Promise<T[]> {
-
-    return this.http.get<T[]>(path, { params }).toPromise();
+  getAll<T>(url: string): Observable<T[]> {
+    return this.http.get<T[]>(url).pipe(retry(1));
   }
 
-  post<T>(
-    path: string,
-    body: T | Dictionary | FormData = {},
-    params: HttpParams | Dictionary = new HttpParams()): Promise<T> {
-
-    return this.http.post<T>(path, body, { params }).toPromise();
+  post<T>(url: string, body: T): Observable<T> {
+    return this.http.post<T>(url, body).pipe(retry(1));
   }
 
-  postList<T>(
-    path: string,
-    body: T[] | Dictionary[] | FormData = [],
-    params: HttpParams | Dictionary = new HttpParams()): Promise<T[]> {
-
-    return this.http.post<T[]>(path, body, { params }).toPromise();
+  delete<T>(url: string): Observable<T> {
+    return this.http.delete<T>(url).pipe(retry(1));
   }
 
-  delete<T>(
-    path: string,
-    params: HttpParams | Dictionary = new HttpParams()): Promise<Dictionary> {
-
-    return this.http.delete<Dictionary>(path, { params }).toPromise();
-  }
-
-  put<T>(
-    path: string,
-    body: T | Dictionary | FormData = {},
-    params: HttpParams | Dictionary = new HttpParams()): Promise<Dictionary> {
-
-    return this.http.put<Dictionary>(path, body, { params }).toPromise();
-  }
-
-  putList<T>(
-    path: string,
-    body: T[] | Dictionary[] | FormData = [],
-    params: HttpParams | Dictionary = new HttpParams()): Promise<Dictionary[]> {
-
-    return this.http.put<Dictionary[]>(path, body, { params }).toPromise();
+  put<T>(url: string, body: T): Observable<T> {
+    return this.http.put<T>(url, body).pipe(retry(1));
   }
 }

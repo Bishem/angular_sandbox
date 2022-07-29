@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { JwtService } from './jwt.service';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { User } from '@core/models';
 import { UserService } from '@core/http';
+import { User } from '@core/models';
+import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { JwtService } from './jwt.service';
 
 /**
  * Provides a base for auth workflow.
@@ -28,40 +28,26 @@ export class AuthService {
   }
 
   populate() {
-
-    console.log('trying refreshing token');
-
     if (this.jwtService.getToken()) {
-
-      console.log('refreshing token');
-
-      this.userService.authMe()
-        .then(user => this.setAuth(user))
-        .catch(() => this.purgeAuth());
+      this.userService.authMe().subscribe({
+        next: user => this.setAuth(user),
+        error: () => this.purgeAuth()
+      }).unsubscribe();
     }
   }
 
-  attemptAuth(userSecret: FormData, isSigningUp = false) {
-
-    if (isSigningUp) {
-      return this.userService.signUp(userSecret).then(user => this.setAuth(user));
-    }
-    return this.userService.logIn(userSecret).then(user => this.setAuth(user));
+  attemptAuth(userSecret: User, isSigningUp = false) {
+    const authBehavior = isSigningUp ? this.userService.signUp(userSecret) : this.userService.logIn(userSecret);
+    return authBehavior.subscribe(user => this.setAuth(user));
   }
 
   setAuth(user: User) {
-
-    console.log('setting auth');
-
     this._currentUser.next(user);
     this._isAuthenticated.next(true);
     this.jwtService.saveToken(user.token);
   }
 
   purgeAuth() {
-
-    console.log('purging auth');
-
     this._currentUser.next({} as User);
     this._isAuthenticated.next(false);
     this.jwtService.destroyToken();

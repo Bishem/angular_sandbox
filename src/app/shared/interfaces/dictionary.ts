@@ -1,3 +1,1 @@
-export interface Dictionary {
-  [param: string]: string | string[];
-}
+export interface Dictionary { }

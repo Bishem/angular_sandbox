@@ -1,7 +1,7 @@
+import { Observable } from 'rxjs/internal/Observable';
 import { Injectable } from '@angular/core';
 import { Task } from '@core/models';
-import { Dictionary } from '@shared/interfaces';
-import { ApiService } from '@core/http/core';
+import { ApiService } from './core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +12,23 @@ export class TaskService {
 
   constructor(private apiService: ApiService) { }
 
-  getTask(id: number): Promise<Task> {
+  get(id: number): Observable<Task> {
     return this.apiService.get<Task>(`${this.path}/${id}`);
   }
 
-  getTasks(): Promise<Task[]> {
-    return this.apiService.getList<Task>(`${this.path}`);
+  getAll(): Observable<Task[]> {
+    return this.apiService.getAll<Task[]>(`${this.path}`);
   }
 
-  createTask(task: Task): Promise<Task> {
+  create(task: Task): Observable<Task> {
     return this.apiService.post<Task>(`${this.path}`, task);
   }
 
-  deleteTask(id: number): Promise<Dictionary> {
+  delete(id: number): Observable<Task> {
     return this.apiService.delete<Task>(`${this.path}/${id}`);
   }
 
-  updateTask(task: Task): Promise<Dictionary> {
+  update(task: Task): Observable<Task> {
     return this.apiService.put<Task>(`${this.path}`, task);
   }
 }

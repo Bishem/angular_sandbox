@@ -9,6 +9,7 @@
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
       "@features/*": ["src/app/features/*"],
+      "@taskboard/*": ["src/taskboard/features/taskboard/*"],
       "@root/*": ["src/app/*"]
     },
     "outDir": "./dist/out-tsc",
