@@ -11,30 +11,17 @@ import { JwtService } from '@core/auth';
 })
 export class HttpTokenInterceptor implements HttpInterceptor {
 
-  constructor(
-    private jwtService: JwtService
-  ) {
-  }
+  constructor(private jwtService: JwtService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+    const token = this.jwtService.getToken();
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Accept-charset': 'utf8'
     });
 
-    console.log('intercepted request without authaurization');
-
-    const token = this.jwtService.getToken();
-
-    if (this.jwtService.getToken()) {
-
-      console.log('found token ', token);
-
-      headers.append('Authorization', `Bearer ${token}`);
-    }
-
-    return next.handle(req.clone({ headers }));
+    return next.handle(req.clone({ headers: token ? headers.append('Authorization', `Bearer ${token}`) : headers }));
   }
 }

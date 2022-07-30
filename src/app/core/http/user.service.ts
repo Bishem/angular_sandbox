@@ -8,27 +8,23 @@ import { ApiService } from './core';
 })
 export class UserService {
 
-  private path = '/auth';
-
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService<User>) {
+    apiService.path = '/auth';
+  }
 
   authMe(): Observable<User> {
-    return this.apiService.get<User>(`${this.path}/me`);
+    return this.apiService.fetch('me');
   }
 
-  logIn(userSecret: User): Observable<User> {
-    return this.apiService.post<User>(`${this.path}/login`, userSecret);
+  login(userSecret: User): Observable<User> {
+    return this.apiService.createAt(userSecret, 'login');
   }
 
-  signUp(userSecret: User): Observable<User> {
-    return this.apiService.post<User>(`${this.path}/signup`, userSecret);
+  signup(userSecret: User): Observable<User> {
+    return this.apiService.createAt(userSecret, 'signup');
   }
 
-  update(user: User): Observable<User> {
-    return this.apiService.put<User>(`${this.path}`, user);
-  }
-
-  signOut(userSecret: User): Observable<User> {
-    return this.apiService.post<User>(`${this.path}/signout`, userSecret);
+  signout(userSecret: User): Observable<User> {
+    return this.apiService.createAt(userSecret, 'signout');
   }
 }

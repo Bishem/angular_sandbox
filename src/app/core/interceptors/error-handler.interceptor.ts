@@ -14,10 +14,8 @@ import { catchError } from 'rxjs/operators';
 })
 export class ErrorHandlerInterceptor implements HttpInterceptor {
 
-  // Customize the default error handler here if needed
+  // would normaly redirect to custom error page with error message properly handled, guessing here
   private static errorHandler(error: HttpEvent<any>): Observable<HttpEvent<any>> {
-
-    console.log('handeling error');
 
     if (!environment.production) {
       console.error(error);
@@ -27,9 +25,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    console.log('intercepted error response');
-
     return next.handle(request).pipe(catchError(error => ErrorHandlerInterceptor.errorHandler(error)));
   }
 

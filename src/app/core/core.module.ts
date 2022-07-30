@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { CoreRoutingModule } from './core-routing.module';
+import { NavigationComponent } from './components';
 
 
 @NgModule({
@@ -10,7 +11,11 @@ import { CoreRoutingModule } from './core-routing.module';
     HttpClientModule
   ],
   exports: [
-    CoreRoutingModule
+    CoreRoutingModule,
+    NavigationComponent
+  ],
+  declarations: [
+    NavigationComponent
   ],
 })
 export class CoreModule { }

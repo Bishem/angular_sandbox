@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TaskboardModule } from '@features/taskboard';
 
+// TODO: add guards
 const routes: Routes = [
   {path: '', pathMatch: 'full',redirectTo: 'taskboard'},
-  {path: 'taskboard', loadChildren: () => TaskboardModule}
+  {path: 'taskboard', loadChildren: () => import('@features/taskboard').then(loader => loader.TaskboardModule)}
 ];
 
 @NgModule({

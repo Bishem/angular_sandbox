@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared/shared.module';
-
-import { TaskboardComponent } from './pages/taskboard';
+import { SharedModule } from '@root/shared';
+import { ChildComponent, CousinComponent, ParentComponent } from './components';
+import { TaskboardComponent } from './pages';
 import { TaskboardRoutingModule } from './taskboard-routing.module';
-import { ParentComponent } from './components/parent';
-import { ChildComponent } from './components/child';
-import { CousinComponent } from './components/cousin';
 
 
 @NgModule({
