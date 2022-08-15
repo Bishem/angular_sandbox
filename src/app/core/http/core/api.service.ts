@@ -1,51 +1,54 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { retry } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-
+import { HttpMethod } from '@core/http/util';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService<T> {
+  constructor(private http: HttpClient) {}
 
-  private _path: string = '';
-
-  constructor(private http: HttpClient) { }
-
-  fetch(value: string): Observable<T> {
-    return this.http.get<T>(`${this.path}/${value}`).pipe(retry(1));
+  fetch(root: string, target: string) {
+    return this.http.get<T>(`/${root}/${target}`);
   }
 
-  fetchMatching(property: string, value: string): Observable<T[]> {
-    return this.http.get<T[]>(`${this.path}?${property}=${value}`).pipe(retry(1));
+  fetchAt(root: string, path: string, target: string) {
+    return this.http.get<T>(`/${root}/${path}/${target}`);
   }
 
-  fetchAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.path).pipe(retry(1));
+  fetchMatching(root: string, body: T) {
+    return this.http.post<T[]>(`/${root}`, body);
   }
 
-  create(body: T): Observable<T> {
-    return this.http.post<T>(this.path, body).pipe(retry(1));
+  fetchMatchingAt(root: string, path: string, body: T) {
+    return this.http.post<T[]>(`/${root}/${path}`, body);
   }
 
-  createAt(body: T, route: string): Observable<T> {
-    return this.http.post<T>(`${this.path}/${route}`, body).pipe(retry(1));
+  fetchAll(root: string) {
+    return this.http.get<T[]>(`/${root}`);
   }
 
-  delete(value: string): Observable<T> {
-    return this.http.delete<T>(`${this.path}/${value}`).pipe(retry(1));
+  create(root: string, body: T) {
+    return this.http.post<T>(`/${root}`, body);
   }
 
-  update(body: T): Observable<T> {
-    return this.http.put<T>(this.path, body).pipe(retry(1));
+  createAt(root: string, path: string, body: T) {
+    return this.http.post<T>(`/${root}/${path}`, body);
   }
 
-  get path(): string {
-    return this.path;
+  delete(root: string, target: string) {
+    return this.http.delete<boolean>(`/${root}/${target}`);
   }
 
-  set path(path:string) {
-    this._path = path;
+  deleteAt(root: string, path: string, target: string) {
+    return this.http.delete<boolean>(`/${root}/${path}/${target}`);
+  }
+
+  update(root: string, body: T) {
+    return this.http.put<T>(`/${root}`, body);
+  }
+
+  updateAt(root: string, path: string, body: T) {
+    return this.http.put<T>(`/${root}/${path}`, body);
   }
 }

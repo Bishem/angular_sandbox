@@ -1,4 +1,10 @@
-import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { JwtService } from '@core/auth';
@@ -6,22 +12,27 @@ import { JwtService } from '@core/auth';
 /**
  * Adds header authorization to the request using in storage token
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
+  constructor(private jwtService: JwtService) {}
 
-  constructor(private jwtService: JwtService) { }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     const token = this.jwtService.getToken();
     const headers = new HttpHeaders({
+      Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Accept-charset': 'utf8'
     });
 
-    return next.handle(req.clone({ headers: token ? headers.append('Authorization', `Bearer ${token}`) : headers }));
+    return next.handle(
+      req.clone({
+        headers:
+          token !== null
+            ? headers.append('Authorization', `Bearer ${token}`)
+            : headers,
+      })
+    );
   }
 }

@@ -1,30 +1,17 @@
 import { Injectable } from '@angular/core';
+import { UserSecret } from '@core/auth/models';
 import { User } from '@core/models';
-import { Observable } from 'rxjs/internal/Observable';
 import { ApiService } from './core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
+  private root = 'user';
 
-  constructor(private apiService: ApiService<User>) {
-    apiService.path = '/auth';
-  }
+  constructor(private _api: ApiService<User>) {}
 
-  authMe(): Observable<User> {
-    return this.apiService.fetch('me');
-  }
-
-  login(userSecret: User): Observable<User> {
-    return this.apiService.createAt(userSecret, 'login');
-  }
-
-  signup(userSecret: User): Observable<User> {
-    return this.apiService.createAt(userSecret, 'signup');
-  }
-
-  signout(userSecret: User): Observable<User> {
-    return this.apiService.createAt(userSecret, 'signout');
+  get api(): ApiService<User> {
+    return this._api;
   }
 }

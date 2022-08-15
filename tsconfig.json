@@ -4,13 +4,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@assets/*": [ "src/assets/*"],
+      "@assets/*": ["src/assets/*"],
       "@environments/*": ["src/environments/*"],
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
       "@features/*": ["src/app/features/*"],
-      "@taskboard/*": ["src/taskboard/features/taskboard/*"],
-      "@root/*": ["src/app/*"]
+      "@app/*": ["src/app/*"],
+      "@sandbox/*": ["src/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -27,10 +27,7 @@
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ]
+    "lib": ["es2020", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
